@@ -379,6 +379,7 @@
 
                                 $pagination.twbsPagination('destroy');
                                 $pagination.twbsPagination($.extend({}, defaultOpts, {
+                                    //  筛选哪一类后默认从第一页开始 把startPage改为1
                                     startPage: 1,
                                     totalPages: totalPages
                                 }));
