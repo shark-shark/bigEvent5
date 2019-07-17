@@ -43,7 +43,7 @@
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">文章类别：</label>
                     <div class="col-sm-4">
-                        <select class="form-control">
+                        <select class="form-control article_cate">
                             <option>1</option>
                             <option>2</option>
                             <option>3</option>
@@ -83,18 +83,40 @@
             </form>
         </div>
     </div>
-    <script>
-     // 入口函数
-     $(function(){
-         // 需求：文章封面图片预览
-        $('#exampleInputFile').on('change',function(){
-            var iconFile=this.files[0];
-            var url= URL.createObjectURL(iconFile);
-            $(".picc").attr('src',url);
-        });
+    <!-- 准备一个模板 -->
+    <script id="txt-id" type="text/html">
+    {{each data v}}
+    <option value='{{v.id}}'>{{v.name}}</option>
+    {{/each}}
+    </script>
 
-        
-     })
+
+    <script>
+        // 入口函数
+        $(function () {
+            // 需求：文章封面图片预览
+            $('#exampleInputFile').on('change', function () {
+                var iconFile = this.files[0];
+                var url = URL.createObjectURL(iconFile);
+                $(".picc").attr('src', url);
+            });
+
+
+            // 文章类别获取数据
+            $.ajax({
+                url: 'http://localhost:8000/admin/category_search',
+                success: function (backData) {
+                    // console.log(backData);
+                    if (backData.code == 200) {
+                        var resHtml = template('txt-id', backData);
+                        $('.article_cate').html(resHtml);
+                    }
+                }
+            });
+
+    
+
+        })
 
 
 
