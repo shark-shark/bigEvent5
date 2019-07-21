@@ -290,7 +290,7 @@
             <td class="text-center">{{v.state}}</td>
             <td class="text-center">
                 <a href="article_edit.html" class="btn btn-default btn-xs">编辑</a>
-                <a href="#" data-id="{{v.id}}" class="btn btn-danger btn-xs">删除</a>
+                <a href="#" data-id="{{v.id}}" class="btn btn-danger btn-xs btn-delete">删除</a>
             </td>
         </tr>
         {{/each}}
@@ -402,6 +402,26 @@
             // $('#btnSearch').trigger('click');
 
 
+            // 删除文章 ，给删除按钮们加委托注册时间
+            $('tbody').on('click', '.btn-delete', function () {
+                var that = $(this);// 保存当前点击的这个删除按钮
+                if (confirm('请问你是真的要删除吗？')) {
+                    var id = $(this).attr('data-id');//获取删除文章的id
+                    $.ajax({
+                        url: 'http://localhost:8000/admin/article_delete',
+                        data: {
+                            id: id
+                        },
+                        success: function (backData) {
+                            // console.log(backData);
+                            if (backData.code == 200) {
+                                getData(currentPage);//获取当前页，把当前页传进去
+                            }
+
+                        }
+                    })
+                }
+            })
         });
     </script>
 
